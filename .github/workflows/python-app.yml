@@ -22,4 +22,15 @@ jobs:
         with:
           name: code-coverage folder
           path: htmlcov/**
+        # Run mutation tests with Mutmut
+      - name: Run mutation tests with Mutmut
+        run: |
+          mutmut run --paths-to-mutate ./src --test-suite unittest --reports-dir mutations-report
+
+      # Upload mutation report as artifact
+      - name: Upload mutation test report
+        uses: actions/upload-artifact@v4
+        with:
+          name: mutation-report
+          path: mutations-report/**
       - run: echo "🍏 This job's status is ${{ job.status }}."
